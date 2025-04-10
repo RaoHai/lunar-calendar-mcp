@@ -29,13 +29,40 @@ const TOOLS = [
         },
       }
     }
+  },
+  {
+    name: "get_taboo",
+    description: "获取当天的凶吉",
+    inputSchema: {
+      type: "object",
+      properties: {
+        date: {
+          type: "string",
+          description: "今天的日期，格式为 YYYY-MM-DD"
+        },
+      }
+    }
   }
 ];
 
-async function handleLunar(dateStr: string) {
+function handleLunar(dateStr: string) {
   const date = new Date(dateStr);
   const solar = SolarDay.fromYmd(date.getFullYear(), date.getMonth(), date.getDay());
-  return solar.getLunarDay().toString();
+  return solar.getLunarDay();
+}
+
+ function handelTabbo(dateStr: string) {
+  const lunar = handleLunar(dateStr);
+  const goods = lunar.getRecommends();
+  const avoids = lunar.getAvoids();
+  return {
+    toString() {
+      return `
+      - 吉：${goods.map(g => g.getName())}
+      - 凶：${avoids.map(g => g.getName())}
+      `
+    }
+  }
 }
 
 // Set up request handlers
@@ -44,13 +71,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  const { date } = request.params.arguments!;
   switch (request.params.name) {
     case 'get_lunar':
-      const { date } = request.params.arguments!;
       return {
         content: [{
           type: 'text',
-          text: await handleLunar(date as string),
+          text: handleLunar(date as string).toString(),
+        }],
+      }
+    case 'get_taboo':
+      return {
+        content: [{
+          type: 'text',
+          text: handelTabbo(date as string).toString(),
         }],
       }
     default:
