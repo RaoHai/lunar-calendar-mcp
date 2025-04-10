@@ -15,7 +15,7 @@
 ```json
 {
   "mcpServers": {
-    "Mcp": {
+    "lunar": {
       "command": "tnpx",
       "args": [
         "-y",
