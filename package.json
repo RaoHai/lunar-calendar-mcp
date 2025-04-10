@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "tsc --build && chmod 755 dist/**/*.js",
+    "prepublishOnly": "npm run build",
     "start": "node --experimental-specifier-resolution=node dist/index.js"
   },
   "dependencies": {

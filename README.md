@@ -1,5 +1,6 @@
 # 🌙 农历日历 MCP 服务器
-![001011001101](https://github.com/user-attachments/assets/8c58b7f1-c347-4645-a3bb-c88775eb1e6e)
+
+<img height="200" src="https://github.com/user-attachments/assets/8c58b7f1-c347-4645-a3bb-c88775eb1e6e" />
 
 
 ✨ 一个提供农历日期和凶吉查询的 MCP 服务器
@@ -40,8 +41,45 @@
 
 欢迎提交 Issue 和 PR！
 
-1. Fork 项目
-2. 创建分支 (`git checkout -b feature/xxx`)
-3. 提交更改 (`git commit -am 'Add some feature'`)
-4. 推送分支 (`git push origin feature/xxx`)
-5. 创建 Pull Request
+### 如何调试
+
+####  安装 mcp tools: https://github.com/f/mcptools 
+
+```bash
+brew tap f/mcptools
+brew install mcp
+```
+#### 构建 
+
+```bash
+npm run build
+```
+
+####  List Tools:
+
+```bash
+mcp tools node dist/index.js
+```
+
+返回：
+
+```
+get_lunar([date:str])
+     获取当天的农历日期
+
+get_taboo([date:str])
+     获取当天的凶吉
+```
+
+#### Call Tool:
+
+```
+mcp call get_lunar --params '{"date":"2025-04-10"}'  node dist/index.jsg
+```
+
+返回：
+```
+农历乙巳年二月初五
+```
+
+
